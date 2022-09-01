@@ -117,3 +117,22 @@ Library           String
     ${response}    发送请求    ${cookie}    ${domain2}/kmzk/profit/report/order    ${param}
     ${res2}    To Json    ${response}
     订单利润表对比1    ${res1}    ${res2}
+
+
+    订单利润表-线上vs测试
+    #获取时间戳
+    ${date}    前7天
+    ${date_start}    Set Variable    ${date[0]}    #获取开始时间
+    ${date_end}    Set Variable    ${date[1]}    #获取结束时间
+    #获取取值规则
+    ${ruleId}    获取规则    ${cookie}
+    ${shop_id}    Set Variable    37741_88387
+    #测试环境订单利润表接口
+    ${param}    Set Variable    api_name=kmzk_profit_report_order&sysStatus=1&startTime=${date_start}&endTime=${date_end}&shopUniIds=${shop_id}&ruleId=${ruleId}&needSummary=1
+    ${response}    发送请求    ${cookie}    ${domain}/kmzk/profit/report/order    ${param}
+    ${res1}    To Json    ${response}
+    #线上环境订单利润表接口
+    ${param}    Set Variable    api_name=kmzk_profit_report_order&sysStatus=1&startTime=${date_start}&endTime=${date_end}&shopUniIds=${shop_id}&ruleId=${ruleId}&needSummary=1
+    ${response}    发送请求    ${cookie}    ${domain2}/kmzk/profit/report/order    ${param}
+    ${res2}    To Json    ${response}
+    订单利润表对比1    ${res1}    ${res2}
